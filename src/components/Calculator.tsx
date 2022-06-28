@@ -56,11 +56,18 @@ const Calculator = () => {
         break;
       }
       case Operation.DIVIDE: {
-        const operationResult = first / second;
-        setResult(operationResult);
-        addToHistory(
-          `Divided ${first} by ${second} and got ${operationResult}`
-        );
+        if (second === 0) {
+          setResult('You must not divide by 0!');
+          addToHistory(
+            `Tried to divide ${first} by ${second} but you cannot divide by 0!`
+          );
+        } else {
+          const operationResult = first / second;
+          setResult(operationResult);
+          addToHistory(
+            `Divided ${first} by ${second} and got ${operationResult}`
+          );
+        }
         break;
       }
       default: {
