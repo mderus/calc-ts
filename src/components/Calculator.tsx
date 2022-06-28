@@ -1,6 +1,10 @@
 import {ChangeEvent, useState} from 'react';
+import {CalculatorHistory} from './CalculatorHistory';
+import {CalculatorInputs} from './CalculatorInputs';
+import {CalculatorResult} from './CalculatorResult';
+import {CalculatorButtons} from './CalculatorButtons';
 
-enum Operation {
+export enum Operation {
   ADD,
   SUBTRACT,
   MULTIPLY,
@@ -10,7 +14,7 @@ enum Operation {
 const Calculator = () => {
   const [first, setFirst] = useState<number>(0);
   const [second, setSecond] = useState<number>(0);
-  const [result, setResult] = useState<number | string>();
+  const [result, setResult] = useState<number | string>('');
   const [history, setHistory] = useState<string[]>([]);
 
   const handleFirstChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -78,20 +82,17 @@ const Calculator = () => {
 
   return (
     <>
-      <input type='number' onChange={handleFirstChange} />
-      <input type='number' onChange={handleSecondChange} />
-
-      <h1>{result}</h1>
-
-      <button onClick={() => setOperationResult(Operation.ADD)}>+</button>
-      <button onClick={() => setOperationResult(Operation.SUBTRACT)}>-</button>
-      <button onClick={() => setOperationResult(Operation.MULTIPLY)}>*</button>
-      <button onClick={() => setOperationResult(Operation.DIVIDE)}>/</button>
-      <button onClick={clearHistory}>Clear history [{history.length}]</button>
-
-      <ul>
-        {history && history.map((line, index) => <li key={index}>{line}</li>)}
-      </ul>
+      <CalculatorInputs
+        handleFirstChange={handleFirstChange}
+        handleSecondChange={handleSecondChange}
+      />
+      <CalculatorResult result={result} />
+      <CalculatorButtons
+        history={history}
+        setOperationResult={setOperationResult}
+        clearHistory={clearHistory}
+      />
+      <CalculatorHistory history={history} />
     </>
   );
 };
